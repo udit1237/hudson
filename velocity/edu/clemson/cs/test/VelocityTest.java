@@ -27,7 +27,7 @@ public class VelocityTest {
 		/* Assert we have a valid object */
 		assertNotNull(out);
 		Integer s =(Integer) PrivateAccessor.getPrivateField(out, "direction");
-		assertEquals (s, 45);
+		assertEquals (Double.valueOf(s), Double.valueOf(45));
 	}
 	
 	@Test
