@@ -1,0 +1,56 @@
+<?xml version="1.0"?>  
+<project name="brickles" default="test">  
+  
+ 
+    <property name="src.dir" value="." />  
+	<property name="test.dir" value="." />
+    <property name="classes.dir" value="class" />  
+    <property name="lib.dir" value="." />  
+    <property name="dist.dir" value="dist" />  
+    <property name="doc.dir" value="doc" />  
+    <property name="junit-report" value="junit-report" />  
+    <property name="cover-report" value="cover-report" />  
+  
+     
+    <path id="master-classpath">  
+        <fileset file="${lib.dir}/*.jar" />  
+        <pathelement path="${classes.dir}"/>  
+    </path>  
+  
+    
+    <target name="init">  
+    </target>  
+  
+    
+    <target name="compile" depends="init" description="compile the source files">  
+        <mkdir dir="${classes.dir}"/>  
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" >  
+        	
+        	<classpath refid="master-classpath"/>    
+        </javac>  
+    </target>  
+  
+    
+    <target name="test" depends="compile" description="run junit test">  
+        <mkdir dir="${junit-report}"/>  
+        <junit printsummary="yes" >  
+            <classpath refid="master-classpath" />  
+            <formatter type="plain"/>  
+            <batchtest todir="${junit-report}">  
+                <fileset dir="${test.dir}">  
+                    <include name="**/*Test.java"/>  
+                </fileset>  
+            	<formatter type="xml"/>
+            </batchtest>  
+        </junit>  
+    	
+    	<junitreport todir="${junit-report}">
+    	<fileset dir="${junit-report}">
+    	<include name="TEST-*.xml"/>
+    	</fileset>
+    	
+    	<report format="noframes" todir="${junit-report}"/>
+    	</junitreport>
+    	
+    </target>  
+</project>
