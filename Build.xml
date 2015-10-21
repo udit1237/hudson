@@ -1,5 +1,5 @@
 <?xml version="1.0"?>  
-<project name="brickles" default="test">  
+<project name="brickles-sonar" default="test" xmlns:sonar="antlib:org.sonar.ant">  
   
  
     <property name="src.dir" value="." />  
@@ -9,7 +9,22 @@
     <property name="dist.dir" value="dist" />  
     <property name="doc.dir" value="doc" />  
     <property name="junit-report" value="junit-report" />  
-    <property name="cover-report" value="cover-report" />  
+    <property name="cover-report" value="cover-report" />
+	
+	<!-- Define the SonarQube global properties (the most usual way is to pass these properties via the command line) -->
+	<property name="sonar.jdbc.url" value="jdbc:h2:tcp://localhost:9092/sonar" />
+	<property name="sonar.jdbc.username" value="sonar" />
+	<property name="sonar.jdbc.password" value="sonar" />
+	 
+	<!-- Define the SonarQube project properties -->
+	<property name="sonar.projectKey" value="CPSC873" />
+	<property name="sonar.projectName" value="CPSC873" />
+	<property name="sonar.projectVersion" value="1.0" />
+	<property name="sonar.language" value="java" />
+	<property name="sonar.sources" value="." />
+	<property name="sonar.host.url" value="http://localhost:9000" /> 
+	<property name="sonar.login" value="admin" /> 
+	<property name="sonar.password" value="admin" />
   
      
     <path id="master-classpath">  
@@ -52,5 +67,14 @@
     	<report format="noframes" todir="${junit-report}"/>
     	</junitreport>
     	
-    </target>  
+    </target> 
+	
+	<target name="sonar" depends="compile">
+	    <taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
+			<classpath refid="master-classpath"/>
+	    </taskdef>
+	 
+	    <!-- Execute the SonarQube analysis -->
+	    <sonar:sonar />
+	</target>
 </project>
